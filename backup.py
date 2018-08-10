@@ -24,8 +24,8 @@ class Backup_Manager:
         self.default_excludes = "--exclude '~/backup/***' --exclude 'backup*' --exclude '.*'"
         # edit these as needed:
         self.optional_excludes = "--exclude '/Dropbox/***' --exclude '/Pictures/***' --exclude '/Movies/***' --exclude 'zsh*'"
-        self.source_dir = "~/"
-        self.destination_dir = "~/backup"
+        self.source_dir = "/"
+        self.destination_dir = "/backup"
         self.base_rsync_options = "--human-readable --progress --log-file='backup.log'"
         self.rsync_run_command = "rsync -avz"
         self.rsync_dry_run_command = "rsync -avzn"
@@ -76,6 +76,12 @@ class Backup_Manager:
 #main
 
 bm = Backup_Manager()
+
+#get home directory path for this user
+home = os.popen('pwd').read()
+home = "{}".format(home[:-1]) #strip return character
+bm.source_dir = home + bm.source_dir
+bm.destination_dir = home + bm.destination_dir
 
 #menu and prompts
 command = ""
